@@ -22,7 +22,7 @@ public class ChatHub: Hub
 	{
 		Message message = new Message(Context?.User?.Identity?.Name!, text);
         await Clients.Users(receiver, Context?.User?.Identity?.Name!).SendAsync("sendMessage", message);
-        await _chatService.SendMessageAsync("63ac7669de08d9aeba250267", message);
+        await _chatService.SendMessageAsync(receiver, Context?.User?.Identity?.Name!, message);
         //await Clients.All.SendAsync("sendMessage", message);
         return;
     }

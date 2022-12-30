@@ -42,7 +42,7 @@ public class ChatService
 
     public async Task SendMessageAsync(string username1, string username2, Message message)
     {
-		var filter = Builders<Chat>.Filter.Where(doc => (doc.User1Id == username1 || doc.User1Id == username2) && (doc.User2Id == username1 || doc.User2Id == username2));
+		var filter = Builders<Chat>.Filter.Where(doc => doc.Usernames.Contains<string>(username1) && doc.Usernames.Contains<string>(username2));
         var update = Builders<Chat>.Update.Push(doc => doc.Messages, message);
         await _chatsCollection.FindOneAndUpdateAsync(filter, update);
         return;
