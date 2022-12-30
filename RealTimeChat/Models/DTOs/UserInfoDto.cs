@@ -5,7 +5,7 @@ namespace RealTimeChat.Models
 	{
 		public string Username { get; set; } = "";
 		public string ImageUrl { get; set; } = "";
-		public List<string> Friends { get; set; } = new List<string>();
+		public List<FriendDto> Friends { get; set; } = new List<FriendDto>();
 
 
         public UserInfoDto()
@@ -13,7 +13,7 @@ namespace RealTimeChat.Models
 
         }
 
-        public UserInfoDto(string username, string imageUrl, List<string> friends)
+        public UserInfoDto(string username, string imageUrl, List<FriendDto> friends)
 		{
 			Username = username;
 			ImageUrl = imageUrl;

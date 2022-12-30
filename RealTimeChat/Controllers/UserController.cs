@@ -12,6 +12,8 @@ namespace RealTimeChat.Controllers;
 [Controller]
 [Route("api/[controller]")]
 [Authorize]
+
+
 public class UserController : Controller
 {
     private readonly UserService _userService;
@@ -34,5 +36,12 @@ public class UserController : Controller
 
         return CreatedAtAction(nameof(SetProfileImage), imageUrl);
     }
-}
 
+    [HttpPost]
+    public async Task<IActionResult> SendFriendRequest(string sentTo)
+    {
+        await _userService.SendFriendRequestAsync(sentTo);
+
+        return CreatedAtAction(nameof(SendFriendRequest), sentTo);
+    }
+}
