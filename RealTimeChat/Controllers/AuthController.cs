@@ -30,7 +30,9 @@ public class AuthController : Controller
     public async Task<IActionResult> Login([FromBody] UserDto request)
     {
         string res = await _authService.LoginAsync(request);
-        if (res == "INVALID!")
+        if (res == "0")
+            return BadRequest("User does not exist!");
+        else if (res == "1")
             return BadRequest("Wrong Password!");
 
         return CreatedAtAction(nameof(Login), res);

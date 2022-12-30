@@ -48,7 +48,9 @@ public class AuthService
 
         var token = new JwtSecurityToken(
             claims: claims,
-            signingCredentials: creds);
+            signingCredentials: creds,
+            expires: DateTime.Now.AddDays(30)
+            );
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
@@ -60,12 +62,16 @@ public class AuthService
         var filter = Builders<User>.Filter.Eq(doc => doc.Username, request.Username);
         var userQuery = await _usersCollection.FindAsync(filter);
         User user = userQuery.FirstOrDefault();
+        if(user==null)
+        {
+            return "0";
+        }
         if(BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
         {
             return CreateToken(user);
         }
 
-        return "INVALID!";
+        return "1";
     }
 
 
