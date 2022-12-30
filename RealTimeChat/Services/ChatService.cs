@@ -19,13 +19,13 @@ public class ChatService
 		_httpContextAccessor = httpContextAccessor;
     }
 
-	public async Task<Chat> CreateChatAsync(Chat chat)
+	public async Task<Chat> CreateAsync(Chat chat)
 	{
 		await _chatsCollection.InsertOneAsync(chat);
 		return chat;
 	}
 
-	public async Task<Chat> GetChatAsync(string chatId)
+	public async Task<Chat> GetAsync(string chatId)
 	{
 		var filter = Builders<Chat>.Filter.Eq(doc => doc.Id, chatId);
 		var chats = await _chatsCollection.FindAsync(filter);
@@ -48,7 +48,7 @@ public class ChatService
         return;
     }
 
-    public async Task DeleteChatAsync(string chatId)
+    public async Task DeleteAsync(string chatId)
 	{
         var filter = Builders<Chat>.Filter.Eq(doc => doc.Id, chatId);
 		await _chatsCollection.FindOneAndDeleteAsync(filter);

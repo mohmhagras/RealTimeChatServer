@@ -23,13 +23,13 @@ public class ChatController : Controller
 	[HttpGet("{chatId}")]
 	public async Task<Chat> GetChat(string chatId)
 	{
-		return await _chatService.GetChatAsync(chatId);
+		return await _chatService.GetAsync(chatId);
 	}
 
 	[HttpPost]
 	public async Task<Chat> CreateChat([FromBody] Chat chat)
 	{
-		return await _chatService.CreateChatAsync(chat);
+		return await _chatService.CreateAsync(chat);
 		
 	}
 
@@ -44,7 +44,7 @@ public class ChatController : Controller
 	[HttpDelete("{chatId}")]
 	public async Task<IActionResult> DeleteChat(string chatId)
 	{
-		await _chatService.DeleteChatAsync(chatId);
+		await _chatService.DeleteAsync(chatId);
 		return Ok();
 	}
 

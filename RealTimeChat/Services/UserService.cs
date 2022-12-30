@@ -20,7 +20,7 @@ public class UserService
 		_httpContextAccessor = httpContextAccessor;
 	}
 
-	public async Task<User> GetUserAsyncById(string id)
+	public async Task<User> GetAsyncById(string id)
 	{
 		var filter = Builders<User>.Filter.Eq(doc => doc.Id, id);
 		var userQuery = await _usersCollection.FindAsync(filter);
@@ -43,7 +43,7 @@ public class UserService
 	{
 		string id = GetUserIdFromHttpContext();
 		if (id == "") return new UserInfoDto();
-		User user = await GetUserAsyncById(id);
+		User user = await GetAsyncById(id);
 		UserInfoDto userInfo = new UserInfoDto(user.Username, user.ImageUrl, user.Friends);
 
 		return userInfo;
