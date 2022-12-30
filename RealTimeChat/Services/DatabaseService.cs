@@ -8,23 +8,18 @@ namespace RealTimeChat.Services;
 
 public class DatabaseService
 {
-	private readonly IMongoCollection<User> _usersCollection;
     private readonly IMongoCollection<Chat> _chatsCollection;
 
     public DatabaseService(IOptions<DatabaseSettings> databaseSettings)
-
 	{
 		MongoClient client = new MongoClient(databaseSettings.Value.ConnectionString);
 		IMongoDatabase db = client.GetDatabase(databaseSettings.Value.DatabaseName);
-		_usersCollection = db.GetCollection<User>(databaseSettings.Value.UsersCollectionName);
         _chatsCollection = db.GetCollection<Chat>(databaseSettings.Value.ChatsCollectionName);
-
     }
 
 	public async Task<Chat> CreateChatAsync(Chat chat)
 	{
 		await _chatsCollection.InsertOneAsync(chat);
-		Console.WriteLine(chat.Id);
 		return chat;
 	}
 

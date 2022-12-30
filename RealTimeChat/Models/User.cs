@@ -10,7 +10,7 @@ public class User
 	public string Id { get; set; }
 
 	[BsonElement("username")]
-	public string UserName { get; set; }
+	public string Username { get; set; }
 
 	[BsonElement("password")]
 	public string Password { get; set; }
@@ -18,7 +18,11 @@ public class User
 	[BsonElement("friends")]
 	public List<string> Friends { get; set; } = new List<string>(); //list of friend usernamess
 
-	[BsonElement("isOnline")]
-	public bool IsOnline { get; set; }
+	public User(string username, string password)
+	{
+		Username = username;
+		Password = password;
+	}
+
 }
 

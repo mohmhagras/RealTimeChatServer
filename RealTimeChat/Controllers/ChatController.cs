@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using RealTimeChat.Services;
 using RealTimeChat.Models;
+using Microsoft.AspNetCore.Authorization;
+
 namespace RealTimeChat.Controllers;
 
 
 [Controller]
 [Route("api/[controller]")]
+[Authorize]
 public class ChatController : Controller
 {
 	private readonly DatabaseService _databaseService;
