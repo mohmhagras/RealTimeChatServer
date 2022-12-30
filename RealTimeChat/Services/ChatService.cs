@@ -6,12 +6,12 @@ using Microsoft.Extensions.Options;
 
 namespace RealTimeChat.Services;
 
-public class DatabaseService
+public class ChatService
 {
     private readonly IMongoCollection<Chat> _chatsCollection;
 	private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public DatabaseService(IOptions<DatabaseSettings> databaseSettings, IHttpContextAccessor httpContextAccessor)
+    public ChatService(IOptions<DatabaseSettings> databaseSettings, IHttpContextAccessor httpContextAccessor)
 	{
 		MongoClient client = new MongoClient(databaseSettings.Value.ConnectionString);
 		IMongoDatabase db = client.GetDatabase(databaseSettings.Value.DatabaseName);

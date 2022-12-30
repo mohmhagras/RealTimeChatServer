@@ -12,10 +12,10 @@ namespace RealTimeChat.Controllers;
 [Authorize]
 public class ChatController : Controller
 {
-	private readonly DatabaseService _databaseService;
+	private readonly ChatService _databaseService;
 
 
-	public ChatController(DatabaseService databaseService)
+	public ChatController(ChatService databaseService)
 	{
 		_databaseService = databaseService;
 	}

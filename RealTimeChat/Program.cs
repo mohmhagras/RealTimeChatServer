@@ -21,7 +21,7 @@ builder.Services.Configure<AuthConfiguration>(
 builder.Services.AddHttpContextAccessor();
 
 
-builder.Services.AddSingleton<DatabaseService>();
+builder.Services.AddSingleton<ChatService>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddScoped<UserService>();
 
