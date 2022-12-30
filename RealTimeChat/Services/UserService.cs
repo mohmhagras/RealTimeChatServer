@@ -53,9 +53,11 @@ public class UserService
 	{
         string id = GetUserIdFromHttpContext();
         if (id == "") return;
+
         var filter = Builders<User>.Filter.Eq(doc => doc.Id, id);
 		var update = Builders<User>.Update.Set(doc => doc.ImageUrl, imageUrl);
 		await _usersCollection.FindOneAndUpdateAsync(filter, update);
+
 		return;
     }
 
