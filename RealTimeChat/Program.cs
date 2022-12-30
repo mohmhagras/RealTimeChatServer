@@ -18,8 +18,12 @@ builder.Services.Configure<DatabaseSettings>(
 builder.Services.Configure<AuthConfiguration>(
         builder.Configuration.GetSection("Secrets"));
 
+builder.Services.AddHttpContextAccessor();
+
+
 builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddSingleton<AuthService>();
+builder.Services.AddScoped<UserService>();
 
 
 builder.Services.AddSwaggerGen(options =>

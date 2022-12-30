@@ -9,12 +9,14 @@ namespace RealTimeChat.Services;
 public class DatabaseService
 {
     private readonly IMongoCollection<Chat> _chatsCollection;
+	private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public DatabaseService(IOptions<DatabaseSettings> databaseSettings)
+    public DatabaseService(IOptions<DatabaseSettings> databaseSettings, IHttpContextAccessor httpContextAccessor)
 	{
 		MongoClient client = new MongoClient(databaseSettings.Value.ConnectionString);
 		IMongoDatabase db = client.GetDatabase(databaseSettings.Value.DatabaseName);
         _chatsCollection = db.GetCollection<Chat>(databaseSettings.Value.ChatsCollectionName);
+		_httpContextAccessor = httpContextAccessor;
     }
 
 	public async Task<Chat> CreateChatAsync(Chat chat)

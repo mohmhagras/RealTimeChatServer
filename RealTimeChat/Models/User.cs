@@ -15,8 +15,11 @@ public class User
 	[BsonElement("password")]
 	public string Password { get; set; }
 
+	[BsonElement("image")]
+	public string ImageUrl { get; set; }
+
 	[BsonElement("friends")]
-	public List<string> Friends { get; set; } = new List<string>(); //list of friend usernamess
+	public List<string> Friends { get; set; } = new List<string>(); //list of friend usernames
 
 	public User(string username, string password)
 	{

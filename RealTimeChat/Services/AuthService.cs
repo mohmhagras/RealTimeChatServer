@@ -26,7 +26,7 @@ public class AuthService
         _token = authConfiguration.Value.Token;
     }
 
-    public async Task RegisterAsync(UserDto request)
+    public async Task RegisterAsync(UserAuthDto request)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
         User user = new User(request.Username, hashedPassword);
@@ -57,15 +57,17 @@ public class AuthService
         return jwt;
     }
 
-    public async Task<string> LoginAsync(UserDto request)
+    public async Task<string> LoginAsync(UserAuthDto request)
     {
         var filter = Builders<User>.Filter.Eq(doc => doc.Username, request.Username);
         var userQuery = await _usersCollection.FindAsync(filter);
         User user = userQuery.FirstOrDefault();
-        if(user==null)
+
+        if(user == null)
         {
             return "0";
         }
+
         if(BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
         {
             return CreateToken(user);

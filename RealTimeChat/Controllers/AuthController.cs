@@ -19,7 +19,7 @@ public class AuthController : Controller
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> CreateAccount([FromBody] UserDto request)
+    public async Task<IActionResult> CreateAccount([FromBody] UserAuthDto request)
     {
         await _authService.RegisterAsync(request);
 
@@ -27,7 +27,7 @@ public class AuthController : Controller
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] UserDto request)
+    public async Task<IActionResult> Login([FromBody] UserAuthDto request)
     {
         string res = await _authService.LoginAsync(request);
         if (res == "0")
