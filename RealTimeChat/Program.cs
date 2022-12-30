@@ -2,11 +2,13 @@
 using RealTimeChat;
 using RealTimeChat.Models;
 using RealTimeChat.Services;
+using RealTimeChat.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,10 +22,24 @@ builder.Services.Configure<AuthConfiguration>(
 
 builder.Services.AddHttpContextAccessor();
 
-
 builder.Services.AddSingleton<ChatService>();
 builder.Services.AddSingleton<AuthService>();
 builder.Services.AddScoped<UserService>();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "policy",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+
+builder.Services.AddSignalR();
 
 
 builder.Services.AddSwaggerGen(options =>
@@ -56,8 +72,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                // If the request is for our hub...
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    (path.StartsWithSegments("/chathub")))
+                {
+                    // Read the token out of the query string
+                    context.Token = accessToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
     });
 
+builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
 var app = builder.Build();
 
@@ -68,6 +103,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("policy");
+
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
@@ -75,6 +113,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+
+
+app.MapHub<ChatHub>("/chathub");
 
 app.Run();
 

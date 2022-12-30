@@ -8,9 +8,9 @@ public class Message
 {
 	public string FromUser { get; set; } //msg sender username
 
-        public DateTime SentAt { get; set; } = DateTime.Now;
+    public DateTime SentAt { get; set; } = DateTime.Now;
 
-        public string Text { get; set; }
+    public string Text { get; set; }
 
 	[BsonElement("status")]
 	[BsonRepresentation(BsonType.String)]

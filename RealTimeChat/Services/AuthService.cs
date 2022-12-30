@@ -39,7 +39,7 @@ public class AuthService
         List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_token));

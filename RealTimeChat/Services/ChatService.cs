@@ -40,7 +40,15 @@ public class ChatService
 		return;
     }
 
-	public async Task DeleteChatAsync(string chatId)
+    public async Task SendMessageAsync(string username1, string username2, Message message)
+    {
+		var filter = Builders<Chat>.Filter.Where(doc => (doc.User1Id == username1 || doc.User1Id == username2) && (doc.User2Id == username1 || doc.User2Id == username2));
+        var update = Builders<Chat>.Update.Push(doc => doc.Messages, message);
+        await _chatsCollection.FindOneAndUpdateAsync(filter, update);
+        return;
+    }
+
+    public async Task DeleteChatAsync(string chatId)
 	{
         var filter = Builders<Chat>.Filter.Eq(doc => doc.Id, chatId);
 		await _chatsCollection.FindOneAndDeleteAsync(filter);
