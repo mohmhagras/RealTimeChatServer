@@ -21,7 +21,7 @@ public class ChatHub: Hub
     public async Task SendMessage(string receiver, string text)
 	{
 		Message message = new Message(Context?.User?.Identity?.Name!, text);
-        await Clients.Users(receiver, Context?.User?.Identity?.Name!).SendAsync("sendMessage", message);
+        await Clients.Users(receiver, Context?.User?.Identity?.Name!).SendAsync("receiveMessage", message, receiver);
         await _chatService.SendMessageAsync(receiver, Context?.User?.Identity?.Name!, message);
         //await Clients.All.SendAsync("sendMessage", message);
         return;

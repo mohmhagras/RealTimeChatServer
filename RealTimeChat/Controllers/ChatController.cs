@@ -26,7 +26,13 @@ public class ChatController : Controller
 		return await _chatService.GetAsync(chatId);
 	}
 
-	[HttpPost]
+    [HttpGet("getuserchats")]
+    public async Task<List<Chat>> GetChats()
+    {
+        return await _chatService.GetUserChats();
+    }
+
+    [HttpPost]
 	public async Task<Chat> CreateChat([FromBody] Chat chat)
 	{
 		return await _chatService.CreateAsync(chat);

@@ -35,7 +35,7 @@ public class AuthController : Controller
         else if (res == "1")
             return BadRequest("Wrong Password!");
 
-        return CreatedAtAction(nameof(Login), res);
+        return CreatedAtAction(nameof(Login), new { token = res });
     }
 }
 

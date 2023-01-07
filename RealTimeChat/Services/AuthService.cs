@@ -29,7 +29,7 @@ public class AuthService
     public async Task RegisterAsync(UserAuthDto request)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
-        User user = new User(request.Username, hashedPassword);
+        User user = new User(request.Username, request.ImageUrl, hashedPassword);
         await _usersCollection.InsertOneAsync(user);
         return;
     }

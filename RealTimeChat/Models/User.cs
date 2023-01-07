@@ -33,5 +33,12 @@ public class User
 		Password = password;
 	}
 
+    public User(string username, string imageUrl, string password)
+    {
+        Username = username;
+		ImageUrl = imageUrl;
+        Password = password;
+    }
+
 }
 

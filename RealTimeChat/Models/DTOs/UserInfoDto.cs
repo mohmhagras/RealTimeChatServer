@@ -1,11 +1,18 @@
 ﻿using System;
-namespace RealTimeChat.Models
+using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Driver;
+namespace RealTimeChat.Models;
+
+public class UserInfoDto
 {
-	public class UserInfoDto
-	{
-		public string Username { get; set; } = "";
-		public string ImageUrl { get; set; } = "";
-		public List<FriendDto> Friends { get; set; } = new List<FriendDto>();
+    [BsonElement("username")]
+    public string Username { get; set; } = "";
+
+    [BsonElement("image")]
+    public string ImageUrl { get; set; } = "";
+
+    [BsonElement("friends")]
+    public List<FriendDto> Friends { get; set; } = new List<FriendDto>();
 
 
         public UserInfoDto()
@@ -14,11 +21,10 @@ namespace RealTimeChat.Models
         }
 
         public UserInfoDto(string username, string imageUrl, List<FriendDto> friends)
-		{
-			Username = username;
-			ImageUrl = imageUrl;
-			Friends = friends;
-		}
+	{
+		Username = username;
+		ImageUrl = imageUrl;
+		Friends = friends;
 	}
 }
 

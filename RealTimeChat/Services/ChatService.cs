@@ -2,7 +2,7 @@
 using MongoDB.Driver;
 using RealTimeChat.Models;
 using Microsoft.Extensions.Options;
-
+using System.Security.Claims;
 
 namespace RealTimeChat.Services;
 
@@ -19,7 +19,31 @@ public class ChatService
 		_httpContextAccessor = httpContextAccessor;
     }
 
-	public async Task<Chat> CreateAsync(Chat chat)
+    public string GetUsernameFromHttpContext()
+    {
+        if (_httpContextAccessor.HttpContext != null)
+        {
+            return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public async Task<List<Chat>> GetUserChats()
+    {
+        string username = GetUsernameFromHttpContext();
+        if (username == "") return new List<Chat>();
+
+        var filter = Builders<Chat>.Filter.AnyEq<string>(doc => doc.Usernames, username);
+        var response = await _chatsCollection.FindAsync<Chat>(filter);
+
+        return response.ToList();
+    }
+
+
+    public async Task<Chat> CreateAsync(Chat chat)
 	{
 		await _chatsCollection.InsertOneAsync(chat);
 		return chat;

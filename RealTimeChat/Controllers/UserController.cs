@@ -29,7 +29,13 @@ public class UserController : Controller
         return await _userService.GetInfoAsync();
     }
 
-    [HttpPost]
+    [HttpGet("friendrequests")]
+    public async Task<List<UserInfoDto>> GetFriendRequests()
+    {
+        return await _userService.GetFriendRequests();
+    }
+
+    [HttpPost("setimage")]
     public async Task<IActionResult> SetProfileImage([FromBody] string imageUrl)
     {
         await _userService.SetProfileImageAsync(imageUrl);
@@ -37,11 +43,42 @@ public class UserController : Controller
         return CreatedAtAction(nameof(SetProfileImage), imageUrl);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> SendFriendRequest(string sentTo)
+    [HttpPost("sendrequest")]
+    public async Task<IActionResult> SendFriendRequest([FromBody] string sentTo)
     {
-        await _userService.SendFriendRequestAsync(sentTo);
+        var response  = await _userService.SendFriendRequestAsync(sentTo);
 
-        return CreatedAtAction(nameof(SendFriendRequest), sentTo);
+        if (response == 200)
+        {
+            return CreatedAtAction(nameof(SendFriendRequest), sentTo);
+        }
+        else if(response == 0)
+        {
+            return BadRequest("Can't get user ID");
+
+        }
+        else if (response == 1)
+        {
+            return BadRequest("User is already a friend!");
+
+        }
+        else if (response == 2)
+        {
+            return BadRequest("Friend Request already sent!");
+
+        }
+
+
+        return BadRequest("User does not exist!");
     }
+
+    [HttpPut("acceptrequest")]
+    public async Task<IActionResult> AcceptFriendRequest([FromBody] UserInfoDto acceptedFriend)
+    {
+        await _userService.AcceptFriendRequestAsync(acceptedFriend);
+
+        return CreatedAtAction(nameof(AcceptFriendRequest), acceptedFriend);
+    }
+
+
 }
