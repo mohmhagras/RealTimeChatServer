@@ -13,10 +13,8 @@ public class UserService
 	private readonly IHttpContextAccessor _httpContextAccessor;
 
 
-    public UserService(IOptions<DatabaseSettings> databaseSettings, IHttpContextAccessor httpContextAccessor)
+    public UserService(IOptions<DatabaseSettings> databaseSettings, IHttpContextAccessor httpContextAccessor, IMongoDatabase database)
 	{
-		IMongoClient mongoClient = new MongoClient(databaseSettings.Value.ConnectionString);
-		IMongoDatabase database = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
 		_usersCollection = database.GetCollection<User>(databaseSettings.Value.UsersCollectionName);
 		_httpContextAccessor = httpContextAccessor;
 	}

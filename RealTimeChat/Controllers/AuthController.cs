@@ -21,8 +21,10 @@ public class AuthController : Controller
     [HttpPost("register")]
     public async Task<IActionResult> CreateAccount([FromBody] UserAuthDto request)
     {
-        await _authService.RegisterAsync(request);
+        int response = await _authService.RegisterAsync(request);
 
+
+        if (response==0) return BadRequest("Username Already taken! Please use another one.");
         return CreatedAtAction(nameof(CreateAccount), request);
     }
 

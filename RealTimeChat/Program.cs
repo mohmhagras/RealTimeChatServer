@@ -1,6 +1,4 @@
-﻿using MongoDB.Driver;
-using RealTimeChat;
-using RealTimeChat.Models;
+﻿using RealTimeChat.Models;
 using RealTimeChat.Services;
 using RealTimeChat.Hubs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -9,17 +7,29 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.AspNetCore.SignalR;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+
 builder.Services.Configure<DatabaseSettings>(
         builder.Configuration.GetSection("DB"));
 
-
+//security key used in creating JWT
 builder.Services.Configure<AuthConfiguration>(
         builder.Configuration.GetSection("Secrets"));
 
+//injecting database instance as a service
+builder.Services.AddSingleton<IMongoDatabase>(options => {
+    var settings = builder.Configuration.GetSection("DB").Get<DatabaseSettings>();
+    var client = new MongoClient(settings.ConnectionString);
+    var database = client.GetDatabase(settings.DatabaseName);
+    return database;
+});
+
+//request context, used to extract ID and username from token
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddSingleton<ChatService>();
@@ -32,7 +42,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "policy",
         builder =>
         {
-            builder.WithOrigins("http://localhost:3001", "http://localhost:3000")
+            builder.WithOrigins("https://rtchatclient.vercel.app")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials();
@@ -42,11 +52,12 @@ builder.Services.AddCors(options =>
 builder.Services.AddSignalR();
 
 
+//enable inputting JWT in swagger gui
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
-        Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",
+        Description = "Standard Authorization header using the Bearer scheme (\"Bearer {token}\")",
         In = ParameterLocation.Header,
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
@@ -56,7 +67,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 
 
@@ -79,12 +90,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             {
                 var accessToken = context.Request.Query["access_token"];
 
-                // If the request is for our hub...
                 var path = context.HttpContext.Request.Path;
                 if (!string.IsNullOrEmpty(accessToken) &&
                     (path.StartsWithSegments("/chathub")))
                 {
-                    // Read the token out of the query string
                     context.Token = accessToken;
                 }
                 return Task.CompletedTask;
@@ -96,7 +105,6 @@ builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

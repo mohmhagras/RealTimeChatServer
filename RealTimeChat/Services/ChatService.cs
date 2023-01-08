@@ -11,11 +11,9 @@ public class ChatService
     private readonly IMongoCollection<Chat> _chatsCollection;
 	private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public ChatService(IOptions<DatabaseSettings> databaseSettings, IHttpContextAccessor httpContextAccessor)
+    public ChatService(IOptions<DatabaseSettings> databaseSettings, IHttpContextAccessor httpContextAccessor, IMongoDatabase database)
 	{
-		MongoClient client = new MongoClient(databaseSettings.Value.ConnectionString);
-		IMongoDatabase db = client.GetDatabase(databaseSettings.Value.DatabaseName);
-        _chatsCollection = db.GetCollection<Chat>(databaseSettings.Value.ChatsCollectionName);
+        _chatsCollection = database.GetCollection<Chat>(databaseSettings.Value.ChatsCollectionName);
 		_httpContextAccessor = httpContextAccessor;
     }
 

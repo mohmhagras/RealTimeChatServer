@@ -1,15 +1,10 @@
-﻿using System;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using RealTimeChat.Models;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Cryptography;
+
 
 namespace RealTimeChat.Services;
 
@@ -18,21 +13,39 @@ public class AuthService
     private readonly IMongoCollection<User> _usersCollection;
     private readonly string _token;
 
-    public AuthService(IOptions<DatabaseSettings> databaseSettings,IOptions<AuthConfiguration> authConfiguration)
+    public AuthService(IOptions<DatabaseSettings> databaseSettings, IOptions<AuthConfiguration> authConfiguration, IMongoDatabase database)
     {
-        MongoClient client = new MongoClient(databaseSettings.Value.ConnectionString);
-        IMongoDatabase db = client.GetDatabase(databaseSettings.Value.DatabaseName);
-        _usersCollection = db.GetCollection<User>(databaseSettings.Value.UsersCollectionName);
-        _token = authConfiguration.Value.Token;
+        _usersCollection = database.GetCollection<User>(databaseSettings.Value.UsersCollectionName);
+
+        // security key used in creating the jwt
+        _token = authConfiguration.Value.Token; 
+
+        //creating a unique index for the username field
+        var keys = Builders<User>.IndexKeys.Ascending("username");
+        var indexOptions = new CreateIndexOptions { Unique = true };
+        var model = new CreateIndexModel<User>(keys, indexOptions);
+        _usersCollection.Indexes.CreateOne(model);
     }
 
-    public async Task RegisterAsync(UserAuthDto request)
+
+
+
+        public async Task<int> RegisterAsync(UserAuthDto request)
     {
         string hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
         User user = new User(request.Username, request.ImageUrl, hashedPassword);
-        await _usersCollection.InsertOneAsync(user);
-        return;
+        try
+        {
+            await _usersCollection.InsertOneAsync(user);
+        }
+        catch(Exception)
+        {
+           return 0;
+        }
+        return 1;
+
     }
+
 
     private string CreateToken(User user)
     {
