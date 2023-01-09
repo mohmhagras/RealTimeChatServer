@@ -1,0 +1,40 @@
+﻿<Properties StartupConfiguration="{50D81D7F-2519-44EB-BAE5-6D33AA3CD2E0}|Default" GitUserInfo="UsingGIT">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.Workbench ActiveDocument="RealTimeChat/Services/UserService.cs">
+    <Files>
+      <File FileName="RealTimeChat/Program.cs" />
+      <File FileName="RealTimeChat/Services/AuthService.cs" />
+      <File FileName="RealTimeChat/Controllers/ChatController.cs" />
+      <File FileName="RealTimeChat/Services/UserService.cs" Line="108" Column="1" />
+      <File FileName="RealTimeChat/Hubs/ChatHub.cs" />
+      <File FileName="RealTimeChat/Controllers/AuthController.cs" />
+      <File FileName="RealTimeChat/Services/ChatService.cs" />
+      <File FileName="RealTimeChat/Models/DTOs/UserInfoDto.cs" />
+      <File FileName="RealTimeChat/Controllers/UserController.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="RealTimeChatApp" expanded="True">
+            <Node name="RealTimeChat" expanded="True" selected="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Hubs" expanded="True" />
+              <Node name="Models" expanded="True">
+                <Node name="DTOs" expanded="True" />
+              </Node>
+              <Node name="Services" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <Debugger.DebugSourceFolders />
+  <AuthorInfo Name="Mohamed Hagras" Email="mohmhagras@gmail.com" Copyright="" Company="" Trademark="" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.RealTimeChat PreferredExecutionTarget="/Applications/Safari.app" />
+</Properties>

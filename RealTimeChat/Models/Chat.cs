@@ -1,10 +1,5 @@
-﻿using System;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
-using MongoDB.Driver;
-
-using System.Net.NetworkInformation;
-
 
 namespace RealTimeChat.Models;
 
@@ -19,6 +14,9 @@ public class Chat
 
 	[BsonElement("messages")]
 	public List<Message> Messages { get; set; } = new List<Message>();
+
+	[BsonElement("lastActivity")]
+	public DateTime LastActivity { get; set; } = DateTime.Now;
 
 	public Chat(string[] usernames)
 	{
