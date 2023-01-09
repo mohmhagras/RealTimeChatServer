@@ -35,6 +35,7 @@ public class ChatService
         if (username == "") return new List<Chat>();
 
         var filter = Builders<Chat>.Filter.AnyEq<string>(doc => doc.Usernames, username);
+        var sort = Builders<Chat>.Sort.Descending(doc => doc.Messages.LastOrDefault(new Message(DateTime.MinValue)).SentAt);
         var response = await _chatsCollection.FindAsync<Chat>(filter);
 
         return response.ToList();

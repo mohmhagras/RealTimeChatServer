@@ -22,7 +22,12 @@ public class Message
 		Text = text;
 	}
 
-	public void UpdateStatus()
+    public Message(DateTime sentAt)
+    {
+		SentAt = sentAt;
+    }
+
+    public void UpdateStatus()
 	{
 		if(Status != MessageStatus.READ)
 		{
