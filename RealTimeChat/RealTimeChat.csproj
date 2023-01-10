@@ -42,4 +42,19 @@
     <Folder Include="Models\DTOs\" />
     <Folder Include="Hubs\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Properties\ServiceDependencies\realtimechatserver\apis1.arm.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Properties\serviceDependencies.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Properties\serviceDependencies.realtimechatserver.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
