@@ -1,4 +1,10 @@
-﻿<Properties StartupConfiguration="{50D81D7F-2519-44EB-BAE5-6D33AA3CD2E0}|Default" GitUserInfo="UsingGIT">
+﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{50D81D7F-2519-44EB-BAE5-6D33AA3CD2E0}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints />
+  <MonoDevelop.Ide.ItemProperties.RealTimeChat PreferredExecutionTarget="/Applications/Safari.app" />
+  <Debugger.DebugSourceFolders />
+  <AuthorInfo Name="Mohamed Hagras" Email="mohmhagras@gmail.com" Copyright="" Company="" Trademark="" />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workbench ActiveDocument="RealTimeChat/Services/UserService.cs">
     <Files>
@@ -29,12 +35,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <Debugger.DebugSourceFolders />
-  <AuthorInfo Name="Mohamed Hagras" Email="mohmhagras@gmail.com" Copyright="" Company="" Trademark="" />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.RealTimeChat PreferredExecutionTarget="/Applications/Safari.app" />
 </Properties>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeChat.Services;
 using RealTimeChat.Models;
+using Newtonsoft.Json.Linq;
 
 namespace RealTimeChat.Controllers;
 
@@ -36,11 +37,11 @@ public class UserController : Controller
     }
 
     [HttpPost("setimage")]
-    public async Task<IActionResult> SetProfileImage([FromBody] string imageUrl)
+    public async Task<IActionResult> SetProfileImage([FromBody] UserImageDto data)
     {
-        await _userService.SetProfileImageAsync(imageUrl);
+        await _userService.SetProfileImageAsync(data.ImageUrl);
 
-        return CreatedAtAction(nameof(SetProfileImage), imageUrl);
+        return CreatedAtAction(nameof(SetProfileImage), data);
     }
 
     [HttpPost("sendrequest")]
@@ -50,7 +51,7 @@ public class UserController : Controller
 
         if (response == 200)
         {
-            return CreatedAtAction(nameof(SendFriendRequest), sentTo);
+            return CreatedAtAction(nameof(SendFriendRequest), new { sentTo });
         }
         else if(response == 0)
         {
